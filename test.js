@@ -159,7 +159,7 @@ $(document).ready( function(){
     var foo = function() { console.log( "foo" ); };
     var bar = function() { console.log( "bar" ); };
     
-    $( "#testbutt3" ).on( "click", foo ).on( "click", bar );
+    $( "#testbutt3" ).on(  "click", foo ).on( "click", bar );
     $( "#testbutt3" ).off( "click", bar ); // foo is still bound to the click event
 
     $("<button type='button' id='testbutt4'>testbutt4</button> <br>").appendTo( document.body );   
@@ -172,6 +172,31 @@ $(document).ready( function(){
             console.log("it was clicked before");
         });
     }
+
+    //event helper function 
+    $("#testbutt4").hover(handler1, handler2);
+    function handler1(){
+        console.log("mouse entered to button4");
+    }
+    function handler2(){
+        console.log("mouse leaves from button4");
+    }
+
+    // Preventing a default action from occurring and stopping the event bubbling
+    $( "#myform" ).on( "submit", function( event ) {
+        // Prevent the form's default submission.
+        event.preventDefault();
+        // Prevent event from bubbling up DOM tree, prohibiting delegation
+        event.stopPropagation();
+        // Make an AJAX request to submit the form data
+    });
+
+    $("<p id='p2'>paragraph two</p> <br>").appendTo( document.body );   
+    $( "#p2" ).on( "click", {
+        foo: "bar"
+    }, function( event ) {
+        console.log( "event data: " + event.data.foo + " (should be 'bar')" );
+    });
 
 });
 
