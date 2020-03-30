@@ -82,8 +82,97 @@ $(document).ready( function(){
                 $("#para_animate").animate({fontSize: '1em'}, "slow");
         });
         newdiv.animate({width:  '100', opacity: '1'}, 500);
+    });
+
+    /*HTML - get */
+    $("#butt4").click(function(){
+        // alert("Get text: " + $("#div1").text());
+        // alert("Get html: " + $("#div1").html());
+        // alert("Get val: " + $("#input1").val());
+        alert("Get attrs: " + $("#w3s").attr("href"));
+    });
+
+    /*HTML - set */
+    $("#butt5").click(function(){
+        // $("#div1").text("set some dummy text");
+        // $("#div1").html("<p style='color: red'>set some dummy html</p>");
+        // $("#input1").val("another one");
+        
+        // $("#w3s").attr({
+        //     "href": "https://www.w3schools.com/jquery/",
+        //     "title": "W3Schools jQuery Tutorial"
+        // });
+
+        $("#w3s").attr("href", function(elementIndex, originalValue){
+            return originalValue + "/jquery/";
+        });
+
+        // $("#div1").text(function(elementIndex, originalText){
+        //     return ("old text: " + originalText + " || new text: set some dummy text || " + "index: " + elementIndex);
+            
+        // });
 
     });
+
+    // Event setup using the `.on()` method with data
+    $( "#input1" ).on(
+        "change",
+        { foo: "bar" }, // Associate data with event binding
+        function( eventObject ) {
+            alert("An input value has changed! ", eventObject.data.foo);
+        }
+    );
+
+    $("<button type='button' id='testbutt1'><a href='http://google.com' target='_blank'>testbutt1</a></button> <br>").appendTo( document.body );
+
+    // Preventing a link from being followed
+    $( "#testbutt1" ).click(function( eventObject ) {
+        var elem = $( this );
+        eventObject.preventDefault();
+        console.log($("#testbutt1 a").attr("href"));
+        // if ( elem.attr( "href" ).match( /evil/ ) ) {
+        //     eventObject.preventDefault();
+        //     elem.addClass( "evil" );
+        // }
+    });
+
+    $("<input type='text' id='input2' name='input2'> <br>").appendTo( document.body );    
+    
+    // Multiple events, same handler
+    $( "#input2" ).on(
+        "click change", // Bind handlers for multiple events
+        function() {
+            console.log( "An input was clicked or changed!" );
+        }
+    );
+    
+    $("<button type='button' id='testbutt2'>testbutt2</button> <br>").appendTo( document.body );    
+
+    // Binding multiple events with different handlers
+    $( "#testbutt2" ).on({
+        "click":     function() { console.log( "clicked!" ); },
+        "mouseover": function() { console.log( "hovered!" ); }
+    });
+
+    $("<button type='button' id='testbutt3'>testbutt3</button> <br>").appendTo( document.body );   
+    // Tearing down a particular click handler, using a reference to the function
+    var foo = function() { console.log( "foo" ); };
+    var bar = function() { console.log( "bar" ); };
+    
+    $( "#testbutt3" ).on( "click", foo ).on( "click", bar );
+    $( "#testbutt3" ).off( "click", bar ); // foo is still bound to the click event
+
+    $("<button type='button' id='testbutt4'>testbutt4</button> <br>").appendTo( document.body );   
+    //Setting Up Events to Run Only Once
+    $("#testbutt4").one("click", firstclick);
+
+    function firstclick(){
+        console.log("Butt4 clicked for the first time");
+        $(this).click(function(){
+            console.log("it was clicked before");
+        });
+    }
+
 });
 
 
